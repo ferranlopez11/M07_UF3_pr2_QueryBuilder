@@ -81,4 +81,26 @@ class FilmController extends Controller
         }
         return view("films.list", ["films" => $films_filtered, "title" => $title]);
     }
+
+    public function countFilms()
+    {
+        //$films = json_decode(Storage::get('films.json'), true);
+        $films = self::readFilms();
+        $totalFilms = count($films);
+        return view('counter', ['totalFilms' => $totalFilms]);
+    }
+
+    public function sortFilms()
+    {
+        $films = self::readFilms();
+        usort($films, function ($a, $b) {
+            return $b['year'] <=> $a['year'];
+        });
+    
+        $title = "Listado de Pelis Ordenadas por Año (Nuevas a antiguas)";
+    
+        return view('films.list', ["films" => $films, "title" => $title]);
+    }
+
+    
 }
