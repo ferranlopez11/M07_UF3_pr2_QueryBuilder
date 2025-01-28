@@ -82,6 +82,7 @@ class FilmController extends Controller
         return view("films.list", ["films" => $films_filtered, "title" => $title]);
     }
 
+    //Función contar películas
     public function countFilms()
     {
         //$films = json_decode(Storage::get('films.json'), true);
@@ -90,6 +91,7 @@ class FilmController extends Controller
         return view('counter', ['totalFilms' => $totalFilms]);
     }
 
+    //Función ordenar películas (de nuevas a antiguas)
     public function sortFilms()
     {
         $films = self::readFilms();
@@ -101,6 +103,38 @@ class FilmController extends Controller
     
         return view('films.list', ["films" => $films, "title" => $title]);
     }
+
+    //Función ordenar películas por género y año
+    public function listFilmsByYear($year)
+    {
+        $filmsByYear = [];
+        $films = self::readFilms();
+        
+        foreach ($films as $film) {
+            if ($film['year'] == $year) {
+                $filmsByYear[] = $film;
+            }
+        }
+        $title = "Listado de Pelis del Año $year";
+        return view('films.list', ["films" => $filmsByYear, "title" => $title]);
+    }
+    
+    public function listFilmsByGenre($genre)
+    {
+        $filmsByGenre = [];
+        $films = self::readFilms();
+        
+        foreach ($films as $film) {
+            if (strtolower($film['genre']) == strtolower($genre)) {
+                $filmsByGenre[] = $film;
+            }
+        }
+        
+        $title = "Listado de Pelis del Género $genre";
+        return view('films.list', ["films" => $filmsByGenre, "title" => $title]);
+    }
+
+
 
     
 }

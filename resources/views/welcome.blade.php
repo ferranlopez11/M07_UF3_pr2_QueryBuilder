@@ -19,6 +19,8 @@
         <li><a href=/filmout/films>Pelis</a></li>
         <li><a href=/filmout/countFilms>Contar pelis</a></li>
         <li><a href=/filmout/sortFilms>Ordenar pelis</a></li>
+        <li><a href=/filmout/filmsByYear>Mostrar pelis por año</a></li>
+        <li><a href=/filmout/filmsByGenre>Mostrar pelis por género</a></li>
     </ul>
 
     <hr>
