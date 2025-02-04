@@ -6,66 +6,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movies List</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #343a40 !important;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .btn-custom:hover {
+            background-color: grey;
+        }
+       
+    </style>
 
 </head>
 
 <body class="container">
 
-    <h1 class="mt-4">Lista de Peliculas</h1>
-    <ul>
-        <li><a href=/filmout/oldFilms>Pelis antiguas</a></li>
-        <li><a href=/filmout/newFilms>Pelis nuevas</a></li>
-        <li><a href=/filmout/films>Pelis</a></li>
-        <li><a href=/filmout/countFilms>Contar pelis</a></li>
-        <li><a href=/filmout/sortFilms>Ordenar pelis</a></li>
-        <li><a href=/filmout/filmsByYear>Mostrar pelis por año</a></li>
-        <li><a href=/filmout/filmsByGenre>Mostrar pelis por género</a></li>
-    </ul>
-
-    <hr>
-
-    <h1 class="mt-4">Registrar Nueva Película</h1>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <p>{{ $errors->first('error') }}</p>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">FILMS</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/filmout/films">Todas las Pelis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/filmout/oldFilms">Pelis Antiguas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/filmout/newFilms">Pelis Nuevas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/filmout/sortFilms">Ordenar Pelis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/filmout/countFilms">Contar Pelis</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/filmout/filmsByYear">Pelis por Año</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/filmout/filmsByGenre">Pelis por Género</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    @endif
+    </nav>
 
-    <form action="{{ url('filmin/createFilm') }}" method="POST" class="mt-4">
-        @csrf
-        <div class="form-group">
-            <label for="name">Nombre:</label>
-            <input type="text" name="name" id="name" class="form-control" required><br>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="form-container">
+                    <h1 class="text-center mb-4">Registrar Nueva Película</h1>
+                    @if (!empty($status))
+                        <div class="alert alert-danger">{{ $status }}</div>
+                    @endif
+                    <form action="{{ route('createFilm') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre:</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="year" class="form-label">Año:</label>
+                            <input type="number" name="year" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="genre" class="form-label">Género:</label>
+                            <input type="text" name="genre" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="country" class="form-label">País:</label>
+                            <input type="text" name="country" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="duration" class="form-label">Duración (minutos):</label>
+                            <input type="number" name="duration" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="img_url" class="form-label">URL de la imagen:</label>
+                            <input type="text" name="img_url" class="form-control" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-custom">Registrar Película</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="year">Año:</label>
-            <input type="number" name="year" id="year" class="form-control" required><br>
-        </div>
-
-        <div class="form-group">
-            <label for="genre">Género:</label>
-            <input type="text" name="genre" id="genre" class="form-control" required><br>
-        </div>
-
-        <div class="form-group">
-            <label for="country">País:</label>
-            <input type="text" name="country" id="country" class="form-control" required><br>
-        </div>
-
-        <div class="form-group">
-            <label for="duration">Duración (minutos):</label>
-            <input type="number" name="duration" id="duration" class="form-control" required><br>
-        </div>
-
-        <div class="form-group">
-            <label for="url_image">URL de la imagen:</label>
-            <input type="text" name="url_image" id="url_image" class="form-control" required><br>
-        </div>
-
-        <button type="submit" class="btn btn-secondary">Registrar Película</button>
-    </form>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
