@@ -101,7 +101,10 @@
                         </div>
                         <div class="mb-3">
                             <label for="img_url" class="form-label">URL de la imagen:</label>
-                            <input type="text" name="img_url" class="form-control" required>
+                            <input type="text" name="img_url" class="form-control @error('img_url') is-invalid @enderror" required>
+                            @error('img_url')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-custom">Registrar Película</button>
