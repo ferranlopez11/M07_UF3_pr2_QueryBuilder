@@ -152,13 +152,18 @@ class FilmController extends Controller
         if(!FilmController::isFilm($newFilm['name'])){
             $films[] = $newFilm;
             $status = Storage::put('/public/films.json', json_encode($films));
+            
             if ($status) {
                 return redirect()->action('App\Http\Controllers\FilmController@listFilms');
             } else {
-                return view("Welcome", ["status" => "Error al añadir película"]);
+                return redirect()->back()
+                ->with("status", "Error al añadir película")
+                ->withInput();
             }
         } else {
-            return view("Welcome", ["status" => "Error, la película ya existe"]);
+            return redirect()->back()
+            ->withErrors(['name' => 'La película ya existe'])
+            ->withInput();
         }
     }
     
